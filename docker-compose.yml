@@ -6,8 +6,33 @@ services:
     image: postgres:13.2-alpine
     restart: always
     ports: 
-      - 5432:5432
+      - 5433:5432
     environment:
       POSTGRES_PASSWORD: likelocation
       POSTGRES_USER: likelocation
       POSTGRES_DB: likelocation
+
+  flyway:
+    image: flyway/flyway:7.9.0-alpine
+    command: -url=jdbc:postgresql://db:5432/likelocation -user=likelocation -password=likelocation -connectRetries=60 migrate
+    volumes:
+      - ./migrations:/flyway/sql
+    depends_on: 
+      - db
+
+# version: '3'
+# services:
+#   database:
+#     image: "postgres" # use latest official postgres version
+#     env_file:
+#       - database.env # configure postgres
+#     volumes:
+#       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+# volumes:
+#   database-data: # named volumes can be managed easier using docker-compose
+
+
+
+# docker-compose up
+# docker-compose run db bash
+# psql --host=db --username=likelocation --dbname=likelocation

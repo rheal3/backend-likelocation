@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8080');
 app.set('port', port);
 
 /**
@@ -89,25 +89,3 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host : '127.0.0.1',
-    port : '5432',
-    user : 'likelocation',
-    password : 'likelocation',
-    database : 'likelocation',
-  },
-  pool: {
-    afterCreate: function (conn, done) {
-      console.log("connected to db")
-    }
-  }
-});
-
-knex.select("1").then((res) => {
-  console.log(res)
-}).catch((error) => {
-  console.log(error)
-})
