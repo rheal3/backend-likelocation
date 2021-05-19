@@ -14,4 +14,16 @@ router.post('/likes', function(req, res, next) {
   res.send("posting cool stuff");
 });
 
+router.delete('/likes/:pageid', function(req, res, next) {
+  const { pageid } = req.params
+  knex('likes')
+    .where('page_id', pageid)
+    .del()
+    .then(result => res.send('Gone forever...'))
+    .catch(err => {
+      res.statusCode(500)
+      res.send("Something broke. Try again later.")  
+    })
+});
+
 module.exports = router;
