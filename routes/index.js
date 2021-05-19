@@ -17,8 +17,8 @@ router.post('/likes', function(req, res, next) {
 router.delete('/likes/:pageid', function(req, res, next) {
   const { pageid } = req.params
   knex('likes')
-    .where('page_id', pageid)
     .del()
+    .where('page_id', pageid)
     .then(result => res.send('Gone forever...'))
     .catch(err => {
       res.statusCode(500)
