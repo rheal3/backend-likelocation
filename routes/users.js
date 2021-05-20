@@ -20,4 +20,21 @@ router.post('/signup', function(req, res, next) {
   });
 })
 
+router.post('/login', function(req, res, next) {
+  const {email, password} = req.body
+
+  knex.select("*").from('account').where('email', email).then(results => {
+    if (results.length > 0) {
+      bcrypt.compare(password, results[0].password_hash, function(err, result) {
+        res.send(result)
+      }); 
+    } else {
+      res.send(false)
+    }
+  }).catch ((err) => {
+    res.send(err)
+  })
+})
+
+
 module.exports = router;
