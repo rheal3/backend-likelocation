@@ -1,7 +1,7 @@
 - [x] store liked locations in database
 - [x] retrieve liked locations from database
 
-- [ ] implement login
+- [x] implement login
 - [ ] look at what a JWT is and how to implement
     - ensures user is still logged in
 
