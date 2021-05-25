@@ -5,14 +5,18 @@ const jwt = require('jsonwebtoken')
 
 
 router.get('/likes', authenticateToken, function(req, res, next) {
-  knex.select("*").from("likes").then(likes => res.send(likes)).catch(err => {
-    res.statusCode(500)
+  knex.select("*").from("likes")
+  .where('user_id', req.user.id)
+  .then(likes => res.send(likes)).catch(err => {
+    res.status(500)
     res.send("We fucked up.", err)
   })
 });
 
 router.post('/likes', authenticateToken, function(req, res, next) {
-  knex('likes').insert(req.body).then()
+  const newLike = {...req.body, user_id: req.user.id}
+  console.log('new like', newLike)
+  knex('likes').insert(newLike).then(() => res.send('success')).catch(err => res.status(500))
   res.send("posting cool stuff");
 });
 
@@ -23,7 +27,7 @@ router.delete('/likes/:pageid', authenticateToken, function(req, res, next) {
     .where('page_id', pageid)
     .then(result => res.send('Gone forever...'))
     .catch(err => {
-      res.statusCode(500)
+      res.status(500)
       res.send("Something broke. Try again later.")  
     })
 });
