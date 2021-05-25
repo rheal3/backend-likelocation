@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 router.get('/likes', authenticateToken, function(req, res, next) {
   knex.select("*").from("likes").then(likes => res.send(likes)).catch(err => {
     res.statusCode(500)
-    res.send("We fucked up.")
+    res.send("We fucked up.", err)
   })
 });
 
